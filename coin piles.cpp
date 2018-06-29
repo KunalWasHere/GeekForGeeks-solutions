@@ -1,0 +1,78 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t,n,k,arr[1001],i,freq[1001],p,sec[1001],ans,val,lower,upper,max,n1,n2,f;
+    cin>>t;
+    while(t--)
+    {
+        f=0;
+        ans=0;
+        p=0;
+        max=0;
+        for(i=0;i<n;i++)
+            freq[i]=0;
+        cin>>n>>k;
+        for(i=0;i<n;i++)
+        {
+            cin>>arr[i];
+            if(arr[i]>max)
+                max=arr[i];
+
+            freq[arr[i]]++;
+        }
+        for(i=1;i<=max;i++)
+        {
+            if(freq[i])
+                sec[p++]=i;
+        }
+        val=max-k;//cout<<val<<"val";
+        lower=lower_bound(sec,sec+p,val)-sec-1;//cout<<lower<<"hi";
+        val=sec[lower]+k;
+        upper=upper_bound(sec,sec+p,val)-sec;
+        while(lower>=0)
+        {
+            n2=0;
+            f=0;
+            n1=freq[sec[lower]]*sec[lower];
+            for(i=upper;i<p;i++)
+            {
+                n2=n2+freq[sec[i]]*(sec[i]-sec[lower]-k);
+                f=f+freq[sec[i]];
+            }
+            if(n1<n2)
+            {
+                freq[sec[lower]]=0;
+                lower--;
+                ans=ans+n1;
+            }
+            else
+            {
+                ans=ans+n2;
+                freq[sec[lower]+k]+=f;//cout<<"freq"<<f;
+                if(sec[upper-1]==sec[lower]+k)
+                {
+                    p=upper;
+                }
+                else
+                {
+                    sec[upper]=sec[lower]+k;
+                    p=upper+1;
+                }
+            }
+            max=sec[p-1];
+            val=max-k;
+            lower=lower_bound(sec,sec+p,val)-sec-1;
+                        if(lower<0)
+                        break;
+
+            while(freq[sec[lower]]==0)
+                lower--;
+            if(lower<0)
+                break;
+            val=sec[lower]+k;
+            upper=upper_bound(sec,sec+p,val)-sec;
+        }
+        cout<<ans<<endl;
+    }
+}
