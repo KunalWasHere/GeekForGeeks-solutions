@@ -1,0 +1,111 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t,n,m,arr[1001],brr[1001],ans,val1,val2,val3,i,j;
+    vector <int> v,x,y;
+    vector <int> :: iterator it,yt,xt;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n>>m;
+        for(i=0;i<n;i++)
+            cin>>arr[i];
+        for(i=0;i<m;i++)
+            cin>>brr[i];
+        i=0;j=0;
+       while(i!=n&&j!=m)
+        {
+            if(arr[i]==brr[j])
+            {
+                v.push_back(arr[i]);
+                i++;
+                j++;
+            }
+            else if(arr[i]<brr[j])
+            {
+                i++;
+            }
+            else
+                j++;
+        }
+        i=0;j=0;val1=0;val2=0;
+        for(it=v.begin();it<v.end();it++)
+        {
+            while(1){
+            if(arr[i]==*it)
+            {
+                while(i+1<n&&arr[i+1]==*it)
+                {
+                    val1=val1+arr[i];
+                    i++;
+                }
+                x.push_back(val1);
+                val1=0;
+                i++;
+                break;
+            }
+            else
+            {
+                val1=val1+arr[i];
+                i++;
+            }}
+
+            while(1){
+            if(brr[j]==*it)
+            {
+                while(j+1<m&&brr[j+1]==*it)
+                {
+                    val2=val2+brr[j];
+                    j++;
+                }
+                y.push_back(val2);
+                val2=0;
+                j++;
+                break;
+            }
+            else
+            {
+                val2=val2+brr[j];
+                j++;
+            }}
+
+
+        }
+        xt=x.begin();
+        yt=y.begin();
+        ans=0;
+        for(it=v.begin();it<v.end();it++)
+        {
+            if(it+1==v.end())
+                val3=*it;
+            //cout<<*xt<<*yt<<endl;
+           if(*xt>*yt)
+            ans=ans+*xt+*it;
+           else
+            ans=ans+*yt+*it;
+            xt++;yt++;
+        }
+        i=n-1;
+        val1=0;val2=0;
+        while(arr[i]!=val3)
+        {
+            val1=val1+arr[i];
+            i--;
+        }
+        j=m-1;
+        while(brr[j]!=val3)
+        {
+            val2=val2+brr[j];
+            j--;
+        }
+        if(val1>val2)
+            ans=ans+val1;
+        else
+            ans=ans+val2;
+        cout<<ans<<endl;
+        v.clear();
+        x.clear();
+        y.clear();
+    }
+}
